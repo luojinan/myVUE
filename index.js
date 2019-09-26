@@ -23,4 +23,4 @@ let obj = {
 
 var vm = new MYVUE(obj) // 创建的VUE实例类，传入参数对象包括{整个dom、整个data、整个事件...}
 
-obj.data.title = '修改data的值'
+// obj.data.title = '修改data的值'
