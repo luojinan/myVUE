@@ -12,11 +12,14 @@ function MYVUE(options) {
   _observe(this.data,this) // 数据劫持函数（遍历data数据对象）
 
   console.dir(document.querySelector(this.el))// 注意console.dir不支持写字符串来标注
+  let doms = this.el.children
   // el.innerHTML = this.data[exp];  // 初始化模板数据的值
   new Watcher(this, 'title', function (value) {
-      // el.innerHTML = value;
+    console.log('执行watcher');
+      doms[1].innerHTML = value; // 先不实现变量的data操作dom，而是写是dom
       console.log('value,dep',value,dep);
   });
+  // return this // 为什么要return this？
   // observe(this.data);
   // new Compile(options.el, this);
 }
@@ -71,6 +74,8 @@ function defineReactive(data, key, val) {
 /******************** 订阅者/观察者(更新dom等) *********************/
 function Watcher(vm,key,cb){
   this.val = vm.data[key] // 观察者具有1、值 2、dom操作data改变视图事件
+  console.log('执行watcher构造函数',vm,key,cb);
+  vm.dep[key].push(this)  // 把自身存入dep对应的数组
   this.cb = cb
 }
 
