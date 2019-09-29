@@ -12,12 +12,12 @@ function MYVUE(options) {
   _observe(this.data,this) // 数据劫持函数（遍历data数据对象）
 
   console.dir(document.querySelector(this.el))// 注意console.dir不支持写字符串来标注
-  let doms = this.el.children
-  // el.innerHTML = this.data[exp];  // 初始化模板数据的值
-  new Watcher(this, 'title', function (value) {
-    console.log('执行watcher');
-      doms[1].innerHTML = value; // 先不实现变量的data操作dom，而是写是dom
-      console.log('value,dep',value,dep);
+  let doms = document.querySelector(this.el).children
+  doms[1].innerHTML = this.data.title;  // 初始化模板数据的值
+
+  new Watcher(this, 'title', (value)=>{
+    console.log('执行callback，此时doms和val',doms,value);
+      doms[1].innerHTML = value; // 先不实现变量的data操作dom，而是写死dom
   });
   // return this // 为什么要return this？
   // observe(this.data);
@@ -34,7 +34,7 @@ function _observe(data,vm) {
       console.log('遍历数据对象data中的key值-->', key)
       // 根据每个key值,对data数据做重构响应操作
       // (劫持后操作,利用Object.defineProperty)
-      defineReactive(data, key,data[key])
+      defineReactive(key,data[key],vm)
     }
   }
   console.log('劫持后的data-->',data)  // 执行这里可以看有getset属性的对象值
@@ -42,8 +42,8 @@ function _observe(data,vm) {
 }
 
 // 定义数据的监听**响应**
-function defineReactive(data, key, val) {
-  Object.defineProperty(data, key, {
+function defineReactive(key, val,vm) {
+  Object.defineProperty(vm.data, key, {
     get() {
       console.log(`${key}属性被读取了...`);
       return val;
@@ -51,6 +51,8 @@ function defineReactive(data, key, val) {
     set(newVal) {
       console.log(`${key}属性从${val}被修改成了${newVal}`)
       val = newVal;
+      vm.dep[key][0].cb(val)
+      console.log('触发set()后订阅器和data',vm.dep,vm.data)
     }
   })
 }
