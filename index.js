@@ -1,4 +1,5 @@
-var MYVUE = require('./utils/MYVUE.js') // 引入VUE构造函数
+// var MYVUE = require('./utils/MYVUE.js') // 引入VUE构造函数
+import MYVUE from './utils/MYVUE'   // 引入MYVUE类实例（es6居然不用babel）
 
 let obj = {
   el: '#myvue-app', // 传入整个vue项目(单页面)的dom
