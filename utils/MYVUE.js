@@ -14,6 +14,7 @@ class MYVUE{
     }
     console.log('数据代理前数据',this._data.title)
     console.log('数据代理后数据',this.title)
+    
     new Observer(this._data)  // 数据劫持
     new Complier(this.$el,this) // 解析dom指令(并创建)
   }
