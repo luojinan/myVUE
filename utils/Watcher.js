@@ -8,10 +8,11 @@ import Dep from "./Dep"
 
 
 class Watcher {
-  constructor(dom,key,vm){
+  constructor(dom,key,vm,func){
     this.dom = dom
     this.key = key
     this.vm = vm
+    this.func = func
 
     Dep.setTarget(this)
 
@@ -21,7 +22,7 @@ class Watcher {
   }
   update(){
     // dom.nodeValue 和 dom.textContent的区别？都是赋值dom的内容文本
-    this.dom.nodeValue = this.vm[this.key]
+    this.dom[this.func] = this.vm[this.key]
   }
 }
 

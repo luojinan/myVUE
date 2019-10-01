@@ -50,12 +50,15 @@ class Complier {
         // console.log(typeof(dom.attributes['v-model']),'dom标签属性是什么type');
         console.log(dom.attributes['v-model'].nodeValue, 'v-model后的变量key值');
         const key = dom.attributes['v-model'].nodeValue
-        // 以下是针对v-model标签做的封装1、复制dom 2、绑定input事件
+        // 以下是针对v-model标签做的封装1、赋值dom初始化 2、绑定input事件 3、创建watcher
+        // 初始化dom的值（直接赋值data没触发set？input改变data却能触发set）
         dom.value = this.vm[key]
         // 事件绑定input
         dom.addEventListener('input', e => {
           this.vm[key] = e.target.value
         })
+        // 创建watcher，否则代码操作data没有触发set改变dom
+        new Watcher(dom,key,this.vm,'value')
       }
     }
     // 有内容或者直接文本的dom
@@ -69,7 +72,7 @@ class Complier {
         // 初始化dom
         dom.nodeValue = this.vm[key]
         // 创建watcher
-        new Watcher(dom, key, this.vm)
+        new Watcher(dom, key, this.vm,'nodeValue')
       }
     }
   }
