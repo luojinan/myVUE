@@ -24,7 +24,7 @@ let obj = {
 
 var vm = new MYVUE(obj) // 创建的VUE实例类，传入参数对象包括{整个dom、整个data、整个事件...}
 window.setTimeout(function () {
-  console.log('定时2秒改变title的值');
-  vm.data.title = 'change';
+  console.log('定时2秒改变title的值',vm);
+  vm.title = 'change';
 }, 2000);
 // obj.data.title = '修改data的值'
