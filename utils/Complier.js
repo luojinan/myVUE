@@ -28,7 +28,20 @@ class Complier {
   }
   _complier(dom){
     if(dom.nodeType===1){
-
+      // console.log('有标签属性的dom',dom.attributes.hasOwnProperty('v-model'))
+      if(dom.attributes.hasOwnProperty('v-model')){
+        // 获取到v-属性的变量key
+        // dom标签属性数组中的属性是个对象
+        // console.log(typeof(dom.attributes['v-model']),'dom标签属性是什么type');
+        console.log(dom.attributes['v-model'].nodeValue,'v-model后的变量key值');
+        const key = dom.attributes['v-model'].nodeValue
+        // 以下是针对v-model标签做的封装1、复制dom 2、绑定input事件
+        dom.value = this.vm[key]
+        // 事件绑定input
+        dom.addEventListener('input',e=>{
+          this.vm[key] = e.target.value
+        })
+      }
     }
     // 有内容或者直接文本的dom
     if(dom.nodeType===3){

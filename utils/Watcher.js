@@ -1,6 +1,7 @@
 import Dep from "./Dep"
 
 /**
+ * 接收dom，key  还有整个vm
  * 1、把自身push进对应的Dep订阅器（数据劫持遍历创建了dep但是没有内容）
  * 2、更新事件
  */
