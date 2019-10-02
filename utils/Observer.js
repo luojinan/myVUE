@@ -7,11 +7,11 @@ class Observe {
 
     // 遍历数据对象data，做数据劫持
     for(let key in this.data){
-      this._bind(key,data[key]) // 为什么不用this.data[key]
+      this._observe(key,data[key]) // 为什么不用this.data[key]
     }
   }
 
-  _bind(key,val){
+  _observe(key,val){
     let myDep = new Dep()
     Object.defineProperty(this.data,key,{
       get(){
